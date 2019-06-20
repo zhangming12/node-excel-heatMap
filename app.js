@@ -16,57 +16,26 @@ const FILE_NAME = argv[3];
 const FILE_PATH = argv[2];
 const AREA_NAME = argv[4] ? argv[4] : ''
 
-
-
-const INDEXMAP = {
-  lIndex: "locate",
-  cIndex: 'count'
-}
-
 const startTime = Date.now()
 const { writeFile } = require('./util/writeFile')
 const { readExcel } = require('./util/readExcel')
-const { heatMapTemplate } = require('./util/getHeatMapTemplate')
-
+const { handleData } = require('./tools/handleData')
 console.log("数据处理中，请稍候...")
-let dataLen = 0
+let dataLen = {
+  count:0
+}
 
 readExcel(FILE_PATH).then(excelData => {
-  writeFile(FILE_NAME, handleData(excelData)).then(msg => {
+  return handleData(excelData, dataLen, AREA_NAME)
+}).then(data => {
+  writeFile(FILE_NAME, data).then(msg => {
     console.log(msg)
-    console.log(`处理了：${dataLen}条数据，耗时：${Date.now() - startTime}ms`)
+    console.log(`处理了：${dataLen.count}条数据，耗时：${Date.now() - startTime}ms`)
   }).catch(err => {
     console.error(err)
   })
-}).catch(() => {
+})
+.catch(() => {
   console.error(`生成失败，请检查文件是否存在，excel文件格式是否正确`)
 })
 
-// 处理数据
-function handleData(excelData) {
-  let listData = excelData[0].data
-  let { lIndex, cIndex } = getIndex(listData.shift())
-  let arr1 = []
-  listData.forEach(item => {
-    let obj = {}
-    let str = item[lIndex].split(',')
-    obj['lng'] = str[1]
-    obj['lat'] = str[0]
-    obj['count'] = item[cIndex]
-    arr1.push(obj)
-    dataLen++
-  })
-  return heatMapTemplate(`var points = ${JSON.stringify(arr1)}`, AREA_NAME)
-}
-
-//获取index
-function getIndex(firstArr) {
-  let lIndex = null, cIndex = null;
-  firstArr.forEach((val, i) => {
-    if (val == INDEXMAP.lIndex) lIndex = i
-    if (val == INDEXMAP.cIndex) cIndex = i
-  })
-  return {
-    cIndex, lIndex
-  }
-}
