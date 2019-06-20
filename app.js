@@ -1,6 +1,10 @@
 /**
  * 命令参数说明
  * node app.js FILE_PATH FILE_NAME AREA_NAME
+ * @param {String} FILE_PATH 要处理的excel文件的相对地址
+ * @param {String} FILE_NAME 要输出的html的文字名
+ * @param {String} AREA_NAME 要画边框的省分名字
+ * @example node app.js ./aaa.xlsx demo.html 湖北省
  */
 const argv = process.argv
 if (argv.length < 4) {
