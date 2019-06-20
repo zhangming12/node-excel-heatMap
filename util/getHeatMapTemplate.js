@@ -62,7 +62,8 @@ exports.heatMapTemplate = function heatMapTemplate(data, areaName) {
         
 
         // 画边界
-        function getBoundary(areaName = '湖北省') {
+        function getBoundary(areaName) {
+            if(!areaName) return
             var bdary = new BMap.Boundary();
             bdary.get(areaName, function(rs) { //获取行政区域
                 var count = rs.boundaries.length; //行政区域的点有多少个

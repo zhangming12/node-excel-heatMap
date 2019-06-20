@@ -14,7 +14,7 @@ if (argv.length < 4) {
 
 const FILE_NAME = argv[3];
 const FILE_PATH = argv[2];
-const AREA_NAME = argv[4] ? argv[4] : '湖北省'
+const AREA_NAME = argv[4] ? argv[4] : ''
 
 
 
@@ -29,14 +29,19 @@ const { readExcel } = require('./util/readExcel')
 const { heatMapTemplate } = require('./util/getHeatMapTemplate')
 
 console.log("数据处理中，请稍候...")
-let excelData = readExcel(FILE_PATH);
 let dataLen = 0
-writeFile(FILE_NAME, handleData(excelData)).then(msg => {
-  console.log(msg)
-  console.log(`处理了：${dataLen}条数据，耗时：${Date.now() - startTime}ms`)
-}).catch(err => {
-  console.error(err)
+
+readExcel(FILE_PATH).then(excelData => {
+  writeFile(FILE_NAME, handleData(excelData)).then(msg => {
+    console.log(msg)
+    console.log(`处理了：${dataLen}条数据，耗时：${Date.now() - startTime}ms`)
+  }).catch(err => {
+    console.error(err)
+  })
+}).catch(() => {
+  console.error(`生成失败，请检查文件是否存在，excel文件格式是否正确`)
 })
+
 // 处理数据
 function handleData(excelData) {
   let listData = excelData[0].data
