@@ -72,7 +72,7 @@
       let marker = new BMap.Marker(point); //将点转化成标注点
       map.addOverlay(marker);  //将标注点添加到地图上
       addTextLabel(marker, thePoint); // 给标注点添加文字信息
-      
+
       //添加监听事件
       (function () {
         marker.addEventListener("click",
@@ -100,8 +100,7 @@
   function showInfo(thisMarker, point) {
     //获取点的信息
     var sContent =
-      `<a-drawer message=""></a-drawer>
-        <div>
+        `<div>
           店铺名称：${point.storeName}
         </div>
         <div>
@@ -109,8 +108,7 @@
         </div>
         <div>
           店铺地址：${point.address}
-        </div>
-      </a-drawer message=""></a-drawer>`;
+        </div>`
     var infoWindow = new BMap.InfoWindow(sContent); //创建信息窗口对象
     thisMarker.openInfoWindow(infoWindow); //图片加载完后重绘infoWindow
   }

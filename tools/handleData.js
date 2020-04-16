@@ -22,12 +22,16 @@ exports.handleData = function handleData(excelData, dataLen, AREA_NAME) {
 
   listData.forEach(item => {
     let obj = {}
-    let str = item[lIndex].split(',')
-    obj['lng'] = str[1]
-    obj['lat'] = str[0]
-    obj['count'] = item[cIndex]
-    arr1.push(obj)
-    dataLen.count++
+    let str = item[lIndex]
+    if(str) {
+      str = str.split(',')
+      obj['lng'] = str[1]
+      obj['lat'] = str[0]
+      obj['count'] = item[cIndex] || 1
+      arr1.push(obj)
+      dataLen.count++
+    }
+
   })
 
   return heatMapTemplate(`var points = ${JSON.stringify(arr1)}`, AREA_NAME)

@@ -25,17 +25,19 @@ let dataLen = {
   count:0
 }
 
-readExcel(FILE_PATH).then(excelData => {
-  return handleData(excelData, dataLen, AREA_NAME)
-}).then(data => {
-  writeFile(FILE_NAME, data).then(msg => {
-    console.log(msg)
-    console.log(`处理了：${dataLen.count}条数据，耗时：${Date.now() - startTime}ms`)
-  }).catch(err => {
-    console.error(err)
+readExcel(FILE_PATH)
+  .then(excelData => {
+    return handleData(excelData, dataLen, AREA_NAME)
   })
-})
-.catch(() => {
-  console.error(`生成失败，请检查文件是否存在，excel文件格式是否正确`)
-})
-
+  .then(data => {
+    writeFile(FILE_NAME, data).then(msg => {
+      console.log(msg)
+      console.log(`处理了：${dataLen.count}条数据，耗时：${Date.now() - startTime}ms`)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  })
+  .catch(() => {
+    console.error(`生成失败，请检查文件是否存在，excel文件格式是否正确`)
+  })

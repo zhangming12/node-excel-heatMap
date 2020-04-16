@@ -5,11 +5,7 @@ exports.writeFile = function writeFile(fileName, data) {
     fs.writeFile(`${fileName}`, data, {
       'flag': 'a'
     }, err => {
-      if (err) {
-        reject(err)
-        return
-      }
-      resolve(`${fileName}文件转换完成`)
+        err ? reject(err) : resolve(`${fileName}文件转换完成`)
     });
   })
 }

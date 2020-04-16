@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=wB4K1krhWQEB3rdX5xVAr5h8QcTbj7OV"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+    <title>打点</title>
+    <style type="text/css">
+      ul,
+      li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        float: left;
+      }
+
+      html {
+        height: 100%
+      }
+
+      body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+        font-family: "微软雅黑";
+      }
+
+      #container {
+        height: 100%;
+        width: 100%;
+      }
+
+      #r-result {
+        width: 100%;
+      }
+    </style>
+  </head>
+
+<body>
+  <div id="container"></div>
+  <div id="r-result" style="display:none">
+    <input type="button" onclick="openHeatmap();" value="显示热力图" /><input type="button" onclick="closeHeatmap();"
+      value="关闭热力图" />
+  </div>
+</body>
+
+</html>
+<!-- <script src="../map2.js"></script> -->
+<script type="text/javascript">
+  // pointes 点的位置信息
+  // var pointes =
+  // [{"lng":"113.37795579300193","lat":"23.125883652319168","storeName":"晨曦商店"},{"lng":"113.37794783429823","lat":"23.125831483598724","storeName":"晨曦商店"},{"lng":"113.37798076064264","lat":"23.125833115397228","storeName":"晨曦商店"},{"lng":"113.37799871571465","lat":"23.125844463106432","storeName":"晨曦商店"},{"lng":"113.37798076064264","lat":"23.125833115397228","storeName":"晨曦商店"},{"lng":"113.37914340678077","lat":"23.118838345184916","storeName":"德诚商行"},{"lng":"113.37913144166247","lat":"23.118827114676897","storeName":"德诚商行"},{"lng":"113.37919032624391","lat":"23.118806229097775","storeName":"德诚商行"},{"lng":"113.37914340678077","lat":"23.118838345184916","storeName":"德诚商行"},{"lng":"113.37006749818123","lat":"23.11583460261434","storeName":"喜洋洋"},{"lng":"113.36955830848109","lat":"23.115938288730604","storeName":"喜洋洋"},{"lng":"113.37006749818123","lat":"23.11583460261434","storeName":"喜洋洋"},{"lng":"113.3773889607193","lat":"23.12375599718911","storeName":"新壹便利店"},{"lng":"113.37738137008051","lat":"23.12371578518525","storeName":"新壹便利店"},{"lng":"113.36938798574877","lat":"23.124171392125895","storeName":"伟发商店"},{"lng":"113.37054253423204","lat":"23.121415830868184","storeName":"伟发商店"},{"lng":"113.37118617370581","lat":"23.12530195178475","storeName":"广州市天河区员村二横11号大院12号"},{"lng":"113.36938798574877","lat":"23.124171392125895","storeName":"伟发商店"},{"lng":"113.3695966415197","lat":"23.124137188706946","storeName":"茂兴便利店"},{"lng":"113.36936715770304","lat":"23.11653094929104","storeName":"茂兴便利店"},{"lng":"113.37741912547894","lat":"23.123606665356732","storeName":"茂兴便利店"},{"lng":"113.37048462276017","lat":"23.121442764513468","storeName":"广州市天河区员村二横路11号"},{"lng":"113.3695966415197","lat":"23.124137188706946","storeName":"茂兴便利店"},{"lng":"113.36936715770304","lat":"23.11653094929104","storeName":"茂兴便利店"},{"lng":"113.36909614500746","lat":"23.127120999800123","storeName":"邻家"},{"lng":"113.36905695373397","lat":"23.12782151646708","storeName":"邻家"},{"lng":"113.36904106753666","lat":"23.127578149813868","storeName":"邻家"},{"lng":"113.36909614500746","lat":"23.127120999800123","storeName":"邻家"},{"lng":"113.36905695373397","lat":"23.12782151646708","storeName":"邻家"},{"lng":"113.36909614500746","lat":"23.127120999800123","storeName":"邻家"},{"lng":"113.36905695373397","lat":"23.12782151646708","storeName":"邻家"},{"lng":"113.36904106753666","lat":"23.127578149813868","storeName":"邻家"}]
+  var pointes =
+  [{"lng":"113.37795579300193","lat":"23.125883652319168","storeName":"晨曦商店"},{"lng":"113.37794783429823","lat":"23.125831483598724","storeName":"晨曦商店"},{"lng":"113.37798076064264","lat":"23.125833115397228","storeName":"晨曦商店"},{"lng":"113.37799871571465","lat":"23.125844463106432","storeName":"晨曦商店"},{"lng":"113.37798076064264","lat":"23.125833115397228","storeName":"晨曦商店"},{"lng":"113.37914340678077","lat":"23.118838345184916","storeName":"德诚商行"},{"lng":"113.37913144166247","lat":"23.118827114676897","storeName":"德诚商行"},{"lng":"113.37919032624391","lat":"23.118806229097775","storeName":"德诚商行"},{"lng":"113.37914340678077","lat":"23.118838345184916","storeName":"德诚商行"},{"lng":"113.37006749818123","lat":"23.11583460261434","storeName":"喜洋洋"},{"lng":"113.36955830848109","lat":"23.115938288730604","storeName":"喜洋洋"},{"lng":"113.37006749818123","lat":"23.11583460261434","storeName":"喜洋洋"},{"lng":"113.3773889607193","lat":"23.12375599718911","storeName":"新壹便利店"},{"lng":"113.37738137008051","lat":"23.12371578518525","storeName":"新壹便利店"},{"lng":"113.36938798574877","lat":"23.124171392125895","storeName":"伟发商店"},{"lng":"113.37054253423204","lat":"23.121415830868184","storeName":"伟发商店"},{"lng":"113.37118617370581","lat":"23.12530195178475","storeName":"伟发商店"},{"lng":"113.36938798574877","lat":"23.124171392125895","storeName":"伟发商店"},{"lng":"113.3695966415197","lat":"23.124137188706946","storeName":"茂兴便利店"},{"lng":"113.36936715770304","lat":"23.11653094929104","storeName":"茂兴便利店"},{"lng":"113.37741912547894","lat":"23.123606665356732","storeName":"茂兴便利店"},{"lng":"113.37048462276017","lat":"23.121442764513468","storeName":"伟发商店"},{"lng":"113.3695966415197","lat":"23.124137188706946","storeName":"茂兴便利店"},{"lng":"113.36936715770304","lat":"23.11653094929104","storeName":"茂兴便利店"},{"lng":"113.36909614500746","lat":"23.127120999800123","storeName":"邻家"},{"lng":"113.36905695373397","lat":"23.12782151646708","storeName":"邻家"},{"lng":"113.36904106753666","lat":"23.127578149813868","storeName":"邻家"},{"lng":"113.36909614500746","lat":"23.127120999800123","storeName":"邻家"},{"lng":"113.36905695373397","lat":"23.12782151646708","storeName":"邻家"},{"lng":"113.36909614500746","lat":"23.127120999800123","storeName":"邻家"},{"lng":"113.36905695373397","lat":"23.12782151646708","storeName":"邻家"},{"lng":"113.36904106753666","lat":"23.127578149813868","storeName":"邻家"}]
+
+  var map = new BMap.Map("container"); // 创建地图实例
+
+  var point = new BMap.Point(
+    Number(113.46409335134084),
+    Number(23.012171972775036)
+  ); // 创建点坐标
+
+  map.centerAndZoom(point, 12); // 设置地图的中心点 以及 大小级别
+
+  function addMarker(points) {
+    //循环建立标注点
+    for (let i = 0, pointsLen = points.length; i < pointsLen; i++) {
+      let thePoint = points[i];
+      let point = new BMap.Point(thePoint.lng, thePoint.lat); //将标注点转化成地图上的点
+      let marker = new BMap.Marker(point); //将点转化成标注点
+      map.addOverlay(marker);  //将标注点添加到地图上
+      addTextLabel(marker, thePoint); // 给标注点添加文字信息
+
+      //添加监听事件
+      (function () {
+        marker.addEventListener("click",
+          //显示信息的方法
+          function () {
+            showInfo(this, thePoint);
+          });
+      })();
+    }
+  }
+
+  function addTextLabel(marker,point) {
+    var label = new BMap.Label(point.storeName, { offset: new BMap.Size(20, 15) }); // 创建文字
+    label.setStyle({
+      color: "black",
+      fontSize: "12px",
+      height: "20px",
+      lineHeight: "20px",
+      fontFamily: "微软雅黑",
+      border: "none",
+    });
+    marker.setLabel(label);
+  }
+  addMarker(pointes);
+  function showInfo(thisMarker, point) {
+    //获取点的信息
+    var sContent =
+        `<div>
+          店铺名称：${point.storeName}
+        </div>`
+    var infoWindow = new BMap.InfoWindow(sContent); //创建信息窗口对象
+    thisMarker.openInfoWindow(infoWindow); //图片加载完后重绘infoWindow
+  }
+  map.enableScrollWheelZoom(true);
+</script>
+</body>
+
+</html>
